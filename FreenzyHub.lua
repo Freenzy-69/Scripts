@@ -70,7 +70,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Freenzy-69/Scripts/re
 
 
 Tabs.Main:AddButton({ Title = "C00lGui", Callback = function() 
-loadstring(game:HttpGet("loadstring(game:GetObjects("rbxassetid://11801763945")[1].Source)()"))()"))()
+loadstring(game:HttpGet("loadstring(game:GetObjects("rbxassetid://11801763945")[1].Source)()
  end })
 
 
