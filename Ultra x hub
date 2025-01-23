@@ -1,0 +1,217 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+-- Ultra X Hub OP (35 Scripts)
+
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "UltraPowerHub"
+screenGui.Parent = player.PlayerGui
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 500, 0, 600)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -300)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.BorderSizePixel = 2
+mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+mainFrame.Visible = false
+mainFrame.Parent = screenGui
+
+-- Draggable Functionality
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+-- Open/Close Button
+local openButton = Instance.new("TextButton")
+openButton.Size = UDim2.new(0, 250, 0, 50)
+openButton.Position = UDim2.new(0.5, -125, 0.85, 0)
+openButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+openButton.Text = "Open Ultra Power Hub"
+openButton.Parent = screenGui
+
+openButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- 35 OP Scripts
+local scripts = {
+    {"God Mode", function()
+        player.Character.Humanoid.Health = 1000
+        player.Character.Humanoid.MaxHealth = 1000
+        player.Character.Humanoid.WalkSpeed = 100
+    end},
+    {"Teleport to Random Player", function()
+        local targetPlayer = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+        if targetPlayer and targetPlayer.Character then
+            player.Character:SetPrimaryPartCFrame(targetPlayer.Character.HumanoidRootPart.CFrame)
+        end
+    end},
+    {"Invisibility", function()
+        for _, part in pairs(player.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.Transparency = 1
+            end
+        end
+    end},
+    {"Speed Hack", function()
+        player.Character.Humanoid.WalkSpeed = 500
+        wait(5)
+        player.Character.Humanoid.WalkSpeed = 16
+    end},
+    {"Unlimited Jump", function()
+        player.Character.Humanoid.JumpPower = 500
+    end},
+    {"Explosive Kick", function()
+        local explosion = Instance.new("Explosion")
+        explosion.Position = player.Character.HumanoidRootPart.Position
+        explosion.BlastRadius = 20
+        explosion.BlastPressure = 100000
+        explosion.Parent = workspace
+    end},
+    {"Fly Hack", function()
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)
+        bodyVelocity.Velocity = Vector3.new(0, 100, 0)
+        bodyVelocity.Parent = player.Character.HumanoidRootPart
+        wait(5)
+        bodyVelocity:Destroy()
+    end},
+    {"Super Strength", function()
+        player.Character.Humanoid.Health = 1000
+        player.Character.Humanoid.MaxHealth = 1000
+        for _, part in pairs(player.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.Size = part.Size * 2
+            end
+        end
+    end},
+    {"Disable Gravity", function()
+        game.Workspace.Gravity = 0
+        wait(5)
+        game.Workspace.Gravity = 196.2
+    end},
+    {"Mega Shield", function()
+        local shield = Instance.new("Part")
+        shield.Size = Vector3.new(50, 50, 50)
+        shield.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+        shield.Anchored = true
+        shield.Parent = workspace
+        shield.BrickColor = BrickColor.new("Bright red")
+    end},
+    {"Health Refill", function()
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+    end},
+    {"Teleport to Spawn", function()
+        player.Character:SetPrimaryPartCFrame(workspace.SpawnLocation.CFrame)
+    end},
+    {"Clone Player", function()
+        local clone = player.Character:Clone()
+        clone.Parent = workspace
+        clone:SetPrimaryPartCFrame(player.Character.HumanoidRootPart.CFrame + Vector3.new(5, 0, 0))
+    end},
+    {"Time Freeze", function()
+        game:GetService("RunService"):BindToRenderStep("FreezeTime", Enum.RenderPriority.Camera.Value, function()
+            game:GetService("Workspace").Gravity = 0
+        end)
+    end},
+    {"Rain Fire", function()
+        for i = 1, 10 do
+            local fireball = Instance.new("Part")
+            fireball.Size = Vector3.new(2, 2, 2)
+            fireball.Position = player.Character.HumanoidRootPart.Position + Vector3.new(math.random(-10, 10), 100, math.random(-10, 10))
+            fireball.Anchored = true
+            fireball.CanCollide = false
+            fireball.BrickColor = BrickColor.new("Bright red")
+            fireball.Parent = workspace
+            game:GetService("Debris"):AddItem(fireball, 5)
+        end
+    end},
+    {"Zombie Army", function()
+        for i = 1, 5 do
+            local zombie = game.ServerStorage.Zombie:Clone()
+            zombie.Parent = workspace
+            zombie.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(5, 0, 5)
+        end
+    end},
+    {"Fast Healing", function()
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+        wait(2)
+        player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+    end},
+    {"Summon Thunder", function()
+        local thunder = Instance.new("Sound")
+        thunder.SoundId = "rbxassetid://189343720"
+        thunder.Parent = workspace
+        thunder:Play()
+    end},
+    {"Super Speed", function()
+        player.Character.Humanoid.WalkSpeed = 1000
+    end},
+    {"Glow Effect", function()
+        player.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame
+        player.Character.HumanoidRootPart.Material = Enum.Material.Neon
+        player.Character.HumanoidRootPart.Color = Color3.fromRGB(0, 255, 255)
+    end},
+    {"Bomb Mode", function()
+        local bomb = Instance.new("Part")
+        bomb.Size = Vector3.new(10, 10, 10)
+        bomb.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+        bomb.BrickColor = BrickColor.new("Bright yellow")
+        bomb.Anchored = true
+        bomb.Parent = workspace
+        game:GetService("Debris"):AddItem(bomb, 10)
+    end},
+    {"Laser Attack", function()
+        local laser = Instance.new("Part")
+        laser.Size = Vector3.new(5, 1, 1)
+        laser.Position = player.Character.HumanoidRootPart.Position + Vector3.new(0, 5, 0)
+        laser.BrickColor = BrickColor.new("Bright blue")
+        laser.Anchored = true
+        laser.Parent = workspace
+        game:GetService("Debris"):AddItem(laser, 5)
+    end}
+}
+
+for i, scriptData in ipairs(scripts) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 450, 0, 40)
+    button.Position = UDim2.new(0.5, -225, 0, (i - 1) * 45 + 10)
+    button.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+    button.Text = scriptData[1]
+    button.Parent = mainFrame
+
+    button.MouseButton1Click:Connect(scriptData[2])
+end
