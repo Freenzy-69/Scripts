@@ -75,5 +75,5 @@ loadstring(game:HttpGet("loadstring(game:GetObjects("rbxassetid://11801763945")[
 
 
 Tabs.Main:AddButton({ Title = "PrisonLife", Callback = function() 
-loadstring(game:HttpGet("loadstring(game:HttpGet('https://raw.githubusercontent.com/devguy100/PrizzLife/main/Source/release_v0.8.1.lua'))()"))()"))()
+loadstring(game:HttpGet("loadstring(game:HttpGet('https://raw.githubusercontent.com/devguy100/PrizzLife/main/Source/release_v0.8.1.lua'))()
  end })
