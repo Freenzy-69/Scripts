@@ -1,0 +1,128 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+-- OP Destroyer Hub
+local player = game.Players.LocalPlayer
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DestroyerHub"
+screenGui.Parent = player.PlayerGui
+
+-- Main Frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 450, 0, 550)
+mainFrame.Position = UDim2.new(0.5, -225, 0.5, -275)
+mainFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+mainFrame.BorderSizePixel = 3
+mainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+mainFrame.Visible = false
+mainFrame.Parent = screenGui
+
+-- Draggable Functionality
+local dragging, dragStart, startPos
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+-- Open/Close Button
+local openButton = Instance.new("TextButton")
+openButton.Size = UDim2.new(0, 200, 0, 50)
+openButton.Position = UDim2.new(0.5, -100, 0.9, 0)
+openButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+openButton.Text = "Open Destroyer Hub"
+openButton.Parent = screenGui
+
+openButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- Script Buttons (10 OP Scripts)
+local scripts = {
+    {"Super Speed", function()
+        player.Character.Humanoid.WalkSpeed = 200
+    end},
+    {"High Jump", function()
+        player.Character.Humanoid.JumpPower = 200
+    end},
+    {"God Mode", function()
+        player.Character.Humanoid.MaxHealth = math.huge
+        player.Character.Humanoid.Health = math.huge
+    end},
+    {"Kill All", function()
+        for _, v in pairs(game.Players:GetPlayers()) do
+            if v ~= player and v.Character and v.Character:FindFirstChild("Humanoid") then
+                v.Character.Humanoid.Health = 0
+            end
+        end
+    end},
+    {"Invisibility", function()
+        for _, part in pairs(player.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.Transparency = 1
+            end
+        end
+        player.Character.HumanoidRootPart.Anchored = true
+    end},
+    {"Explode Player", function()
+        local explosion = Instance.new("Explosion")
+        explosion.Position = player.Character.HumanoidRootPart.Position
+        explosion.BlastRadius = 20
+        explosion.BlastPressure = 500000
+        explosion.Parent = workspace
+    end},
+    {"Teleport to Player", function()
+        local target = game.Players:GetPlayers()[math.random(1, #game.Players:GetPlayers())]
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character:SetPrimaryPartCFrame(target.Character.HumanoidRootPart.CFrame)
+        end
+    end},
+    {"Gravity Control", function()
+        game.Workspace.Gravity = 0
+        wait(5)
+        game.Workspace.Gravity = 196.2
+    end},
+    {"Fly", function()
+        local bodyVelocity = Instance.new("BodyVelocity")
+        bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)
+        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
+        bodyVelocity.Parent = player.Character.HumanoidRootPart
+        wait(5)
+        bodyVelocity:Destroy()
+    end},
+    {"Destroy Map", function()
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("BasePart") then
+                obj:Destroy()
+            end
+        end
+    end}
+}
+
+-- Add Buttons for Scripts
+for i, scriptData in ipairs(scripts) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 400, 0, 40)
+    button.Position = UDim2.new(0.5, -200, 0, (i - 1) * 45 + 10)
+    button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    button.Text = scriptData[1]
+    button.Parent = mainFrame
+
+    button.MouseButton1Click:Connect(scriptData[2])
+end
