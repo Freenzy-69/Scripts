@@ -1,0 +1,179 @@
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+--[=[
+ d888b  db    db d888888b      .d888b.      db      db    db  .d8b.  
+88' Y8b 88    88   `88'        VP  `8D      88      88    88 d8' `8b 
+88      88    88    88            odD'      88      88    88 88ooo88 
+88  ooo 88    88    88          .88'        88      88    88 88~~~88 
+88. ~8~ 88b  d88   .88.        j88.         88booo. 88b  d88 88   88 
+ Y888P  ~Y8888P' Y888888P      888888D      Y88888P ~Y8888P' YP   YP  CONVERTER
+]=]
+
+-- Instances:
+
+--warning do not put your own username xd
+
+local mainFrame = Instance.new("Frame")
+local ipLabel = Instance.new("TextLabel")
+local loggerLabel = Instance.new("TextLabel")
+local usernameBox = Instance.new("TextBox")
+local closeButton = Instance.new("TextButton")
+local takeIPButton = Instance.new("TextButton")
+local creditsText = Instance.new("TextLabel")
+
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+
+gui.ResetOnSpawn = false
+
+mainFrame.Size = UDim2.new(0, 300, 0, 200)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainFrame.BorderSizePixel = 0
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = gui
+
+local roundCorner = Instance.new("UICorner", mainFrame)
+roundCorner.CornerRadius = UDim.new(0, 10)
+
+mainFrame.BackgroundTransparency = 1
+mainFrame.Size = UDim2.new(0, 0, 0, 0)
+local fadeIn = TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+    BackgroundTransparency = 0,
+    Size = UDim2.new(0, 300, 0, 200)
+})
+fadeIn:Play()
+
+ipLabel.Size = UDim2.new(0, 80, 0, 40)
+ipLabel.Position = UDim2.new(0, 10, 0, 10)
+ipLabel.BackgroundTransparency = 1
+ipLabel.Text = "IP"
+ipLabel.TextColor3 = Color3.fromRGB(255, 128, 0)
+ipLabel.TextScaled = true
+ipLabel.Font = Enum.Font.SourceSansBold
+ipLabel.Parent = mainFrame
+
+loggerLabel.Size = UDim2.new(0, 100, 0, 40)
+loggerLabel.Position = UDim2.new(0, 80, 0, 10)
+loggerLabel.BackgroundTransparency = 1
+loggerLabel.Text = "LOGGER"
+loggerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+loggerLabel.TextScaled = true
+loggerLabel.Font = Enum.Font.SourceSansBold
+loggerLabel.Parent = mainFrame
+
+usernameBox.Size = UDim2.new(0, 260, 0, 30)
+usernameBox.Position = UDim2.new(0.5, -130, 0, 60)
+usernameBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+usernameBox.PlaceholderText = "Input User"
+usernameBox.Text = ""
+usernameBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+usernameBox.Font = Enum.Font.SourceSans
+usernameBox.TextScaled = true
+usernameBox.ClearTextOnFocus = false
+usernameBox.Parent = mainFrame
+
+local boxCorner = Instance.new("UICorner", usernameBox)
+boxCorner.CornerRadius = UDim.new(0, 5)
+
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -40, 0, 10)
+closeButton.BackgroundTransparency = 1
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(200, 0, 0)
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextScaled = true
+closeButton.Parent = mainFrame
+
+takeIPButton.Size = UDim2.new(0, 200, 0, 30)
+takeIPButton.Position = UDim2.new(0.5, -100, 0, 110)
+takeIPButton.BackgroundColor3 = Color3.fromRGB(255, 128, 0)
+takeIPButton.Text = "TAKE IP"
+takeIPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+takeIPButton.Font = Enum.Font.SourceSansBold
+takeIPButton.TextScaled = true
+takeIPButton.Parent = mainFrame
+
+local buttonCorner = Instance.new("UICorner", takeIPButton)
+buttonCorner.CornerRadius = UDim.new(0, 10)
+
+creditsText.Size = UDim2.new(1, -20, 0, 40)
+creditsText.Position = UDim2.new(0, 10, 0, 160)
+creditsText.BackgroundTransparency = 1
+creditsText.Text = "V3 by: Silver1337\ndiscord.gg/N63HWDkKnJ"
+creditsText.TextColor3 = Color3.fromRGB(255, 255, 255)
+creditsText.TextScaled = false
+creditsText.Font = Enum.Font.SourceSans
+creditsText.TextSize = 14
+creditsText.TextXAlignment = Enum.TextXAlignment.Left
+creditsText.TextYAlignment = Enum.TextYAlignment.Top
+creditsText.Parent = mainFrame
+
+local dragging = false
+local dragStart, startPos
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+    end
+end)
+
+mainFrame.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        local goal = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+        TweenService:Create(mainFrame, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = goal}):Play()
+    end
+end)
+
+mainFrame.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+    local zoomOut = TweenService:Create(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+        Size = UDim2.new(0, 0, 0, 0),
+        BackgroundTransparency = 1
+    })
+    zoomOut:Play()
+    zoomOut.Completed:Connect(function()
+        gui:Destroy()
+    end)
+end)
+
+takeIPButton.MouseButton1Click:Connect(function()
+    local v = game.Players[usernameBox.Text]
+    ass = gethiddenproperty or get_hidden_prop
+    local Thing = game:GetService("HttpService"):JSONDecode(game:HttpGet("http://country.io/names.json"))
+    local ParsedCountry = Thing[ass(v, "CountryRegionCodeReplicate")]
+    local SayMessageRequest1 = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest
+    SayMessageRequest1:FireServer(
+        v.Name.." - 🅲🆁🅰🅲🅺🅸🅽🅶 🅸🅿 🅰🅳🆁🅴🅴🆂...",
+        "All"
+    )
+    wait(2)
+    local SayMessageRequest = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest
+    SayMessageRequest:FireServer(
+        v.Name.." 🅸🆂 🅵🆁🅾🅼 "..tostring(ParsedCountry).." OS: "..v.OsPlatform.." :🅸🅿"..math.random(20).."."..math.random(9).."."..math.random(10)..".".."##".." ".."(🅘🅟: 🅢🅤🅒🅒🅔🅢🅢🅕🅤🅛🅛🅨 🅛🅞🅖🅖🅔🅓)",
+        "All"
+    )
+    wait(0.55)
+    local SayMessageRequest2 = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest
+    SayMessageRequest2:FireServer(
+        v.Name.."'s 🅸🅿 🅷🅰🆂 🅱🅴🅴🅽 🅻🅾🅶🅶🅴🅳",
+        "All"
+    )
+end)
