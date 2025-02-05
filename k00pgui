@@ -1,0 +1,107 @@
+-- Creación de la GUI
+local screenGui = Instance.new("ScreenGui", game.CoreGui)
+screenGui.Name = "k00pgui"
+
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.Size = UDim2.new(0, 250, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -125, 0.5, -150)
+mainFrame.BorderSizePixel = 2
+mainFrame.BorderColor3 = Color3.fromRGB(0, 255, 0)
+mainFrame.Active = true
+mainFrame.Visible = true -- Se usará para mostrar/ocultar
+
+local title = Instance.new("TextLabel", mainFrame)
+title.Text = "k00pgui\nby B00GKIDZ ***"
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.BackgroundTransparency = 1
+title.Size = UDim2.new(1, 0, 0.2, 0)
+
+local skyboxButton = Instance.new("TextButton", mainFrame)
+skyboxButton.Text = "skybox"
+skyboxButton.Font = Enum.Font.SourceSans
+skyboxButton.TextSize = 16
+skyboxButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+skyboxButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+skyboxButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
+skyboxButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+skyboxButton.Position = UDim2.new(0.1, 0, 0.3, 0)
+
+local decalButton = Instance.new("TextButton", mainFrame)
+decalButton.Text = "decal"
+decalButton.Font = Enum.Font.SourceSans
+decalButton.TextSize = 16
+decalButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+decalButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+decalButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
+decalButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+decalButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+
+local shutdownButton = Instance.new("TextButton", mainFrame)
+shutdownButton.Text = "shutdown"
+shutdownButton.Font = Enum.Font.SourceSans
+shutdownButton.TextSize = 16
+shutdownButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+shutdownButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+shutdownButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
+shutdownButton.Size = UDim2.new(0.8, 0, 0.15, 0)
+shutdownButton.Position = UDim2.new(0.1, 0, 0.7, 0)
+
+local footer = Instance.new("TextLabel", mainFrame)
+footer.Text = "by B00GKIDZ"
+footer.Font = Enum.Font.SourceSans
+footer.TextSize = 14
+footer.TextColor3 = Color3.fromRGB(255, 255, 255)
+footer.BackgroundTransparency = 1
+footer.Size = UDim2.new(1, 0, 0.1, 0)
+footer.Position = UDim2.new(0, 0, 0.9, 0)
+
+-- Botón de Open/Close
+local toggleButton = Instance.new("TextButton", screenGui)
+toggleButton.Text = "Open/Close"
+toggleButton.Font = Enum.Font.SourceSans
+toggleButton.TextSize = 16
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+toggleButton.BorderColor3 = Color3.fromRGB(0, 255, 0)
+toggleButton.Size = UDim2.new(0, 100, 0, 50)
+toggleButton.Position = UDim2.new(0, 10, 0, 10)
+
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- Funciones de los botones
+skyboxButton.MouseButton1Click:Connect(function()
+    local lighting = game:GetService("Lighting")
+    for _, child in pairs(lighting:GetChildren()) do
+        if child:IsA("Sky") then
+            child:Destroy()
+        end
+    end
+
+    local newSkybox = Instance.new("Sky")
+    newSkybox.Parent = lighting
+    newSkybox.SkyboxBk = "http://www.roblox.com/asset/?id=9422866248"
+    newSkybox.SkyboxDn = "http://www.roblox.com/asset/?id=9422866248"
+    newSkybox.SkyboxFt = "http://www.roblox.com/asset/?id=9422866248"
+    newSkybox.SkyboxLf = "http://www.roblox.com/asset/?id=9422866248"
+    newSkybox.SkyboxRt = "http://www.roblox.com/asset/?id=9422866248"
+    newSkybox.SkyboxUp = "http://www.roblox.com/asset/?id=9422866248"
+end)
+
+decalButton.MouseButton1Click:Connect(function()
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") then
+            local decal = Instance.new("Decal")
+            decal.Parent = part
+            decal.Texture = "http://www.roblox.com/asset/?id=9422866248"
+        end
+    end
+end)
+
+shutdownButton.MouseButton1Click:Connect(function()
+    game:GetService("Players").LocalPlayer:Kick("You have been banned from this experience for using backdoor")
+end)
