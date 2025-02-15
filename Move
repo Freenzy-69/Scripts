@@ -1,0 +1,66 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local ImageLabel = Instance.new("ImageLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ImageLabel.Parent = ScreenGui
+ImageLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ImageLabel.BackgroundTransparency = 1.000
+ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageLabel.BorderSizePixel = 0
+ImageLabel.Position = UDim2.new(0.453999996, 0, -0.200000003, 0)
+ImageLabel.Size = UDim2.new(0, 147, 0, 148)
+ImageLabel.Image = "http://www.roblox.com/asset/?id=109295817776397"
+
+-- Scripts:
+
+local function CPQNDRE_fake_script() -- ImageLabel.LocalScript 
+	local script = Instance.new('LocalScript', ImageLabel)
+
+	local imageLabel = script.Parent
+	local tweenService = game:GetService("TweenService")
+	
+	local inicioPos = UDim2.new(0.454, 0, -0.2, 0)
+	local meioPos = UDim2.new(0.454, 0, 0.357, 0)
+	local finalPos = UDim2.new(0.019, 0, 0.757, 0)
+	
+	local tweenInfo = TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	local tweenInfoMeio = TweenInfo.new(1.64, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+	
+	local tweenInicio = tweenService:Create(imageLabel, tweenInfo, {Position = inicioPos})
+	local tweenMeio = tweenService:Create(imageLabel, tweenInfo, {Position = meioPos})
+	local tweenFinal = tweenService:Create(imageLabel, tweenInfo, {Position = finalPos})
+	
+	local function iniciarRotacao()
+		local rotTween = tweenService:Create(imageLabel, TweenInfo.new(2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {Rotation = 360})
+		rotTween:Play()
+	end
+	
+	local function iniciarAnimacao()
+		imageLabel.Visible = true
+		imageLabel.Position = inicioPos
+		tweenInicio:Play()
+		tweenInicio.Completed:Connect(function()
+			tweenMeio:Play()
+			tweenMeio.Completed:Connect(function()
+				wait(1.64)
+				tweenFinal:Play()
+				tweenFinal.Completed:Connect(function()
+					iniciarRotacao()
+				end)
+			end)
+		end)
+	end
+	
+	iniciarAnimacao()
+end
+coroutine.wrap(CPQNDRE_fake_script)()
+``` ▋
