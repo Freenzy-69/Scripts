@@ -19,15 +19,17 @@ ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Frame.Parent = ScreenGui
+Frame.Active = true
 Frame.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
 Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame.Position = UDim2.new(0.916197002, -377, -0.366666675, 333)
+Frame.Position = UDim2.new(0.974638581, -377, -0.388610244, 333)
 Frame.Size = UDim2.new(0, 305, 0, 54)
 
 Frame_2.Parent = Frame
+Frame_2.Active = true
 Frame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Frame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame_2.Position = UDim2.new(-0.000683893915, 0, 0.561338663, 0)
+Frame_2.Position = UDim2.new(0, 0, 0.652999997, 0)
 Frame_2.Size = UDim2.new(0, 305, 0, 236)
 
 File.Name = "File"
@@ -78,9 +80,12 @@ editor.BorderColor3 = Color3.fromRGB(216, 216, 216)
 editor.BorderSizePixel = 2
 editor.Position = UDim2.new(0.00999999978, 0, 0.0799999982, 0)
 editor.Size = UDim2.new(0, 235, 0, 212)
+editor.ClearTextOnFocus = false
 editor.Font = Enum.Font.SourceSans
+editor.MultiLine = true
 editor.PlaceholderColor3 = Color3.fromRGB(255, 0, 0)
 editor.PlaceholderText = "Stigma"
+editor.ShowNativeInput = false
 editor.Text = ""
 editor.TextColor3 = Color3.fromRGB(0, 0, 0)
 editor.TextSize = 14.000
@@ -117,7 +122,7 @@ Clear.TextWrapped = true
 
 -- Scripts:
 
-local function HACMONX_fake_script() -- Execute.LocalScript 
+local function ZQTWPIR_fake_script() -- Execute.LocalScript 
 	local script = Instance.new('LocalScript', Execute)
 
 	local button = script.Parent
@@ -172,14 +177,53 @@ local function HACMONX_fake_script() -- Execute.LocalScript
 			Icon = "rbxassetid://104371153839611"
 		})
 	
+		local Players = game:GetService("Players")
+		local player = Players.LocalPlayer
+		local playerGui = player:WaitForChild("PlayerGui")
+	
+		local screenGui = Instance.new("ScreenGui")
+		screenGui.Name = "ImageCircleGui"
+		screenGui.ResetOnSpawn = false
+		screenGui.Parent = playerGui
+	
+		local centerImage = Instance.new("ImageLabel")
+		centerImage.Name = "CenterImage"
+		centerImage.Image = "rbxassetid://91503715660981"
+		centerImage.Size = UDim2.new(0, 100, 0, 100)
+		centerImage.Position = UDim2.new(0, 30, 1, -130)
+		centerImage.BackgroundTransparency = 1
+		centerImage.Parent = screenGui
+	
+		local orbitImage = Instance.new("ImageLabel")
+		orbitImage.Name = "OrbitImage"
+		orbitImage.Image = "rbxassetid://127217740965572"
+		orbitImage.Size = UDim2.new(0, 50, 0, 50)
+		orbitImage.BackgroundTransparency = 1
+		orbitImage.Parent = screenGui
+	
+		local radius = 60
+		local speed = 0.6
+		local angle = 0
+	
+		game:GetService("RunService").RenderStepped:Connect(function(dt)
+			angle = angle + dt * speed
+			local centerX = centerImage.AbsolutePosition.X + centerImage.AbsoluteSize.X / 2
+			local centerY = centerImage.AbsolutePosition.Y + centerImage.AbsoluteSize.Y / 2
+	
+			local orbitX = centerX + math.cos(angle) * radius - orbitImage.AbsoluteSize.X / 2
+			local orbitY = centerY + math.sin(angle) * radius - orbitImage.AbsoluteSize.Y / 2
+	
+			orbitImage.Position = UDim2.new(0, orbitX, 0, orbitY)
+		end)
+	
 	end
 	
 	button.MouseButton1Click:Connect(function()
 		findBackdoorRemote()
 	end)
 end
-coroutine.wrap(HACMONX_fake_script)()
-local function IEOS_fake_script() -- Clear.LocalScript 
+coroutine.wrap(ZQTWPIR_fake_script)()
+local function RGGTY_fake_script() -- Clear.LocalScript 
 	local script = Instance.new('LocalScript', Clear)
 
 	local button = script.Parent
@@ -189,8 +233,8 @@ local function IEOS_fake_script() -- Clear.LocalScript
 		editor.Text = ""
 	end)
 end
-coroutine.wrap(IEOS_fake_script)()
-local function YAYGQ_fake_script() -- Frame.Drag Gui Script 
+coroutine.wrap(RGGTY_fake_script)()
+local function LJQKDU_fake_script() -- Frame.Drag Gui Script 
 	local script = Instance.new('LocalScript', Frame)
 
 	function dragify(Main)
@@ -234,4 +278,4 @@ local function YAYGQ_fake_script() -- Frame.Drag Gui Script
 	
 	dragify(script.Parent)
 end
-coroutine.wrap(YAYGQ_fake_script)()
+coroutine.wrap(LJQKDU_fake_script)()
